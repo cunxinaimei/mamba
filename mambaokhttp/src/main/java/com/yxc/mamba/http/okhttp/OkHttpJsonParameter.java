@@ -1,8 +1,10 @@
 package com.yxc.mamba.http.okhttp;
 
-import com.alibaba.fastjson.JSON;
+import android.util.Log;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
+import com.yxc.mamba.tool.JsonParser;
+import org.json.JSONException;
 
 /**
  * 类注释
@@ -16,7 +18,13 @@ public class OkHttpJsonParameter extends OkHttpParameter {
     }
 
     public RequestBody generateRequestBody() {
-        String jsonParam = JSON.toJSONString(getParameters());
+        String jsonParam = null;
+        try {
+            jsonParam = JsonParser.mapToJson(getParameters()).toString();
+        } catch (JSONException e) {
+            Log.e(TAG, "Parameters to JSON Error");
+            e.printStackTrace();
+        }
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonParam);
     }
 

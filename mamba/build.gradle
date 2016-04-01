@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 // 这个version是区分library版本的，因此当我们需要更新library时记得修改这个version
-version = "0.1.2"
+version = "0.2.1"
 android {
     compileSdkVersion 21
     buildToolsVersion "23.0.1"
     resourcePrefix ""
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName version
@@ -27,8 +27,6 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.squareup.okhttp:okhttp:2.6.0'
-    compile 'com.squareup.okio:okio:1.6.0'
 }
 def siteUrl = 'https://github.com/cunxinaimei/mamba'      // 项目的主页
 def gitUrl = 'https://github.com/cunxinaimei/mamba.git'   // Git仓库的url

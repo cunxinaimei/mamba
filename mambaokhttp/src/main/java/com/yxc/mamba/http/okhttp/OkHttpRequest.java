@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * 类注释
+ * OkHttpRequest
  * Created by robin on 15/12/9.
  *
  * @author yangxc

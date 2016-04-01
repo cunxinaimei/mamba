@@ -8,8 +8,6 @@ import android.widget.Toast;
 import com.yxc.mamba.http.*;
 import com.yxc.mamba.http.okhttp.OkHttpJsonParameter;
 import com.yxc.mamba.http.okhttp.OkHttpParameter;
-import com.yxc.mamba.http.urlconnection.DefaultJsonParameter;
-import com.yxc.mamba.http.urlconnection.DefaultParameter;
 import com.yxc.mamba.tool.JsonParser;
 import com.yxc.mambalibrary.R;
 

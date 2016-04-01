@@ -1,5 +1,8 @@
 package com.yxc.mamba.http;
 
+import android.util.Log;
+import com.yxc.mamba.http.urlconnection.DefaultParameter;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -12,6 +15,8 @@ import java.util.Map;
  */
 public class RequestManager {
 
+    static final String TAG = "RequestManager";
+
     static Class paramCls;
 
     public static void injectParameter(Class cls){
@@ -20,7 +25,9 @@ public class RequestManager {
 
     public static BaseRequestParameter createParameter(String url) {
         if (paramCls==null){
-            throw new RuntimeException("please call \" injectParameter \" function first");
+            Log.i(TAG, "You can use your own Parameter Class by  \" injectParameter \" function. The default Parameter Class is <DefaultParameter>(based on HttpUrlConnection)");
+            Log.i(TAG, "你可以通过injectParameter方法使用你自定义的Parameter类, 默认使用DefaultParameter(基于HttpUrlConnection)");
+            paramCls = DefaultParameter.class;
         }
         BaseRequestParameter parameter = null;
         Class[] paramTypes = {String.class};

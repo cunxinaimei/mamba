@@ -1,7 +1,6 @@
 package com.yxc.mamba.http;
 
 import android.text.TextUtils;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.util.*;

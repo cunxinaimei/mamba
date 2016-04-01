@@ -4,7 +4,6 @@ import android.util.Log;
 import com.yxc.mamba.http.urlconnection.DefaultParameter;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -19,7 +18,7 @@ public class RequestManager {
 
     static Class paramCls;
 
-    public static void injectParameter(Class cls){
+    public static <T extends BaseRequestParameter> void injectParameter(Class<T> cls){
         paramCls = cls;
     }
 

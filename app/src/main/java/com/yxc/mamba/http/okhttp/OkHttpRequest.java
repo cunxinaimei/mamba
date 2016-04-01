@@ -5,7 +5,6 @@ import com.yxc.mamba.http.*;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * 类注释
@@ -20,7 +19,7 @@ public class OkHttpRequest extends BaseRequest {
     }
 
     @Override
-    protected void doGet(BaseRequestParameter parameter) {
+    protected <T extends BaseRequestParameter> void doGet(T parameter) {
         Request.Builder builder = new Request.Builder();
         builder = builder.url(parameter.generateGetURL());
         for (RequestHeader header: parameter.getHeaders()){
@@ -30,18 +29,12 @@ public class OkHttpRequest extends BaseRequest {
     }
 
     @Override
-    protected void doPost(BaseRequestParameter parameter) {
+    protected <T extends BaseRequestParameter> void doPost(T parameter) {
+        OkHttpParameter okParameter = (OkHttpParameter) parameter;
         Request.Builder builder = new Request.Builder();
-        FormEncodingBuilder form = new FormEncodingBuilder();
-        Map<String, String> params = parameter.getParameters();
-        if (params!=null) {
-            for (String key :params.keySet()){
-                form.add(key, params.get(key));
-            }
-        }
-        builder.url(parameter.getUrl());
-        builder.post(form.build());
-        Collection<RequestHeader> headers = parameter.getHeaders();
+        builder.url(okParameter.getUrl());
+        builder.post(okParameter.generateRequestBody());
+        Collection<RequestHeader> headers = okParameter.getHeaders();
         if (headers!=null) {
             for (RequestHeader header : headers) {
                 builder.addHeader(header.getKey(), header.getValue());

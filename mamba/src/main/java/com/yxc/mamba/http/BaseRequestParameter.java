@@ -1,7 +1,9 @@
 package com.yxc.mamba.http;
 
 import android.text.TextUtils;
+import com.squareup.okhttp.RequestBody;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -10,11 +12,14 @@ import java.util.*;
  *
  * @author yangxc
  */
-public class BaseRequestParameter {
+public abstract class BaseRequestParameter {
 
-    private String url;
-    private Map<String, String> normalParamMap;
-    private List<RequestHeader> headerList;
+    public static String TAG = BaseRequestParameter.class.getSimpleName();
+
+    protected String url;
+    protected Map<String, Object> normalParamMap;
+    protected Map<String, File> fileMap;
+    protected List<RequestHeader> headerList;
 
     public BaseRequestParameter(String url) {
         this.url = url;
@@ -22,10 +27,16 @@ public class BaseRequestParameter {
         headerList = new ArrayList<>();
     }
 
+    public abstract BaseRequest boundRequest(String tag);
+
     public String generateUrlParams() {
         StringBuilder stringBuilder = new StringBuilder();
         for (String key : normalParamMap.keySet()) {
-            String value = normalParamMap.get(key);
+            Object valueObj = normalParamMap.get(key);
+            if (!(valueObj instanceof String)){
+                continue;
+            }
+            String value = (String) valueObj;
             if (TextUtils.isEmpty(value)) {
                 value = "";
             }
@@ -47,16 +58,31 @@ public class BaseRequestParameter {
         return stringBuilder.toString();
     }
 
-    public void addParameter(String key, String value) {
+    public String generatePostBodyString(){
+        return generateUrlParams();
+    }
+
+    public void addParameter(String key, Object value) {
         normalParamMap.put(key, value);
+    }
+
+    public void addFileParameter(String key, File file){
+        if (fileMap==null){
+            fileMap = new HashMap<>();
+        }
+        fileMap.put(key, file);
     }
 
     public void addHeader(String key, String value) {
         headerList.add(new RequestHeader(key, value));
     }
 
-    public Map<String, String> getParameters() {
+    public Map<String, Object> getParameters() {
         return normalParamMap;
+    }
+
+    public Map<String, File> getFileParameters(){
+        return fileMap;
     }
 
     public Collection<RequestHeader> getHeaders() {

@@ -16,16 +16,16 @@ import java.util.Scanner;
  *
  * @author yangxc
  */
-public class URLRequest extends BaseRequest {
+public class DefaultRequest extends BaseRequest {
 
     private final String TAG = "URLRequest";
 
-    public URLRequest(String tag) {
+    public DefaultRequest(String tag) {
         super(tag);
     }
 
     @Override
-    protected void doGet(BaseRequestParameter parameter) {
+    protected <T extends BaseRequestParameter> void doGet(T parameter) {
         HttpURLConnection connection = null;
         try {
             URL url = new URL(parameter.generateGetURL());
@@ -40,7 +40,7 @@ public class URLRequest extends BaseRequest {
     }
 
     @Override
-    protected void doPost(BaseRequestParameter parameter) {
+    protected <T extends BaseRequestParameter> void doPost(T parameter) {
         HttpURLConnection connection = null;
         try {
             URL url = new URL(parameter.generateGetURL());
@@ -50,7 +50,7 @@ public class URLRequest extends BaseRequest {
             }
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
-            String paramStr = parameter.generateUrlParams();
+            String paramStr = parameter.generatePostBodyString();
             connection.getOutputStream().write(paramStr.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

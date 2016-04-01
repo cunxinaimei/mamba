@@ -51,9 +51,9 @@ public abstract class BaseRequest {
 
     public abstract boolean isAsynchronous();
 
-    protected abstract void doGet(BaseRequestParameter parameter);
+    protected abstract <T extends BaseRequestParameter> void doGet(T parameter);
 
-    protected abstract void doPost(BaseRequestParameter parameter);
+    protected abstract <T extends BaseRequestParameter> void doPost(T parameter);
 
     protected abstract BaseResponse transferToResponse(Object originResponse);
 

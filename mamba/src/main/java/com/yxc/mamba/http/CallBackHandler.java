@@ -111,8 +111,12 @@ public class CallBackHandler extends Handler {
 
     private String getParamString(BaseRequestParameter parameter){
         StringBuilder paramBuilder = new StringBuilder();
-        Map<String, String> params = parameter.getParameters();
+        Map<String, Object> params = parameter.getParameters();
         for (String key: params.keySet()){
+            Object valueObj = params.get(key);
+            if (!(valueObj instanceof String)){
+                continue;
+            }
             paramBuilder.append(key)
                     .append("=")
                     .append(params.get(key))

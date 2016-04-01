@@ -1,5 +1,7 @@
 package com.yxc.mamba.http;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -10,44 +12,46 @@ import java.util.Map;
  */
 public class RequestManager {
 
-    private static HttpType defaultType = HttpType.OK_HTTP;
+    static Class paramCls;
+
+    public static void injectParameter(Class cls){
+        paramCls = cls;
+    }
+
+    public static BaseRequestParameter createParameter(String url) {
+        if (paramCls==null){
+            throw new RuntimeException("please call \" injectParameter \" function first");
+        }
+        BaseRequestParameter parameter = null;
+        Class[] paramTypes = {String.class};
+        Object[] paramValues = {url};
+        try {
+            Constructor constructor = paramCls.getConstructor(paramTypes);
+            parameter = (BaseRequestParameter) constructor.newInstance(paramValues);
+        } catch (Exception e) {
+            throw new RuntimeException("please confirm your Parameter Class has a constructor with url(String)");
+        }
+        return parameter;
+    }
 
     public static void get(String tag,
                            final BaseRequestParameter parameter,
                            final RequestCallBack callBack) {
-        doRequest(tag, defaultType, Method.GET, parameter, callBack);
+        doRequest(tag, Method.GET, parameter, callBack);
     }
     public static void post(String tag,
                            final BaseRequestParameter parameter,
                            final RequestCallBack callBack) {
-        doRequest(tag, defaultType, Method.POST, parameter, callBack);
+        doRequest(tag, Method.POST, parameter, callBack);
     }
 
-    public static void get(String tag, HttpType httpType,
-                           final BaseRequestParameter parameter,
-                           final RequestCallBack callBack) {
-        doRequest(tag, httpType, Method.GET, parameter, callBack);
-    }
-    public static void post(String tag, HttpType httpType,
-                           final BaseRequestParameter parameter,
-                           final RequestCallBack callBack) {
-        doRequest(tag, httpType, Method.POST, parameter, callBack);
-    }
-
-    private static void doRequest(String tag, HttpType httpType,
+    private static void doRequest(String tag,
                                   final Method method,
                                   final BaseRequestParameter parameter,
                                   final RequestCallBack callBack){
-        BaseRequest request = null;
-        switch (httpType) {
-            case OK_HTTP:
-                request = RequestFactory.createOkHttpRequest(tag);
-                break;
-            case HTTP_URL_CONNECTION:
-                request = RequestFactory.createURLRequest(tag);
-                break;
-            default:
-                break;
+        BaseRequest request = parameter.boundRequest(tag);
+        if (request==null){
+            return;
         }
         Map<String, String> commonParams = getCommonParameter().getCommonParameters();
         for (String key: commonParams.keySet()){

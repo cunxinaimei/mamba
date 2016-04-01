@@ -56,3 +56,22 @@ Request 继承 BaseRequest
 Parameter 继承 BaseRequestParameter
 
 具体可以参考mambaokhttp的简单实现
+
+## 使用
+
+如果自己有接入其他框架，那么需要指定一下Parameter类型
+
+`
+	RequestManager.injectParameter(YourParameter.class);
+	`
+	
+发起请求
+
+`
+BaseRequestParameter param = RequestManager.createParameter("YourAPIUrl");
+param.addHeader("HeaderKey", "HeaderValue");
+param.addParameter("key1", "value1");
+param.addParameter("key2", "value2");
+param.addParameter("key3", "value3");
+RequestManager.get(tag, param, YourCallBack);
+`

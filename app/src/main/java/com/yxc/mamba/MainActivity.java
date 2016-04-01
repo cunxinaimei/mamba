@@ -6,8 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.yxc.mamba.http.*;
-import com.yxc.mamba.http.okhttp.OkHttpJsonParameter;
-import com.yxc.mamba.http.okhttp.OkHttpParameter;
+import com.yxc.mamba.http.urlconnection.DefaultJsonParameter;
 import com.yxc.mamba.tool.JsonParser;
 import com.yxc.mambalibrary.R;
 
@@ -33,7 +32,7 @@ public class MainActivity extends Activity {
     }
 
     private void testHttp(){
-        RequestManager.injectParameter(OkHttpJsonParameter.class);
+        RequestManager.injectParameter(DefaultJsonParameter.class);
         RequestManager.addCommonHeader("apikey", "ac9c1c27e1997fc2e8e4e6a27a70aae8");
 
 //        OkHttpJsonParameter parameter = new OkHttpJsonParameter("http://apis.baidu.com/baidu_openkg/xiaoshuo_kg/xiaoshuo_kg");

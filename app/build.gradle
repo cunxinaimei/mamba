@@ -26,7 +26,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.squareup.okhttp:okhttp:2.6.0'
     compile 'com.squareup.okio:okio:1.6.0'
-    compile project(':mamba')
+    compile 'com.yxc.mamba:mamba:0.2.2'
     compile 'com.alibaba:fastjson:1.2.8'
-    compile project(':mambaokhttp')
 }

@@ -58,6 +58,8 @@ Parameter 继承 BaseRequestParameter
 
 具体可以参考mambaokhttp的简单实现
 
+**由于做了统一封装，所以如果需要更换底层实现，只需要在程序入口处指定对应的Parameter类即可，其他代码都不需要做改动。**
+
 ## 使用
 
 Gradle

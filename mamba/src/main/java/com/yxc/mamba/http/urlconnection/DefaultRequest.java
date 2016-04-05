@@ -3,11 +3,12 @@ package com.yxc.mamba.http.urlconnection;
 import android.util.Log;
 import com.yxc.mamba.http.*;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -42,35 +43,56 @@ public class DefaultRequest extends BaseRequest {
     @Override
     protected <T extends BaseRequestParameter> void doPost(T parameter) {
         HttpURLConnection connection = null;
+        OutputStreamWriter wr = null;
         try {
-            URL url = new URL(parameter.generateGetURL());
+            URL url = new URL(parameter.getUrl());
             connection = (HttpURLConnection) url.openConnection();
-            for (RequestHeader header: parameter.getHeaders()) {
+            for (RequestHeader header : parameter.getHeaders()) {
                 connection.setRequestProperty(header.getKey(), header.getValue());
             }
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setDoOutput(true);
             String paramStr = parameter.generatePostBodyString();
-            connection.getOutputStream().write(paramStr.getBytes());
+            Log.d(TAG, paramStr);
+            wr = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+            wr.write(paramStr);
+            wr.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (wr!=null) {
+                    wr.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         doCall(connection);
 
     }
 
-    private void doCall(HttpURLConnection connection){
+    private void doCall(HttpURLConnection connection) {
+        InputStream in = null;
         try {
             requestStarted();
-            InputStream in = new BufferedInputStream(connection.getInputStream());
+            in = new BufferedInputStream(connection.getInputStream());
             String result = readInStream(in);
             requestSuccess(result);
             Log.d(TAG, result);
         } catch (IOException e) {
             requestFailure(new RequestException(-1, e.toString()));
         } finally {
-            if (connection!=null) {
+            if (connection != null) {
                 connection.disconnect();
+            }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -89,5 +111,4 @@ public class DefaultRequest extends BaseRequest {
         Scanner scanner = new Scanner(in).useDelimiter("\\A");
         return scanner.hasNext() ? scanner.next() : "";
     }
-
 }

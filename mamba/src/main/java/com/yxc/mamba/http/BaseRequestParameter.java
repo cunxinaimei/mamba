@@ -1,8 +1,11 @@
 package com.yxc.mamba.http;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -14,6 +17,8 @@ import java.util.*;
 public abstract class BaseRequestParameter {
 
     public static String TAG = BaseRequestParameter.class.getSimpleName();
+
+    public static final String CHARSET_DEFAULT = "UTF-8";
 
     protected String url;
     protected Map<String, Object> normalParamMap;
@@ -29,6 +34,10 @@ public abstract class BaseRequestParameter {
     public abstract BaseRequest boundRequest(String tag);
 
     public String generateUrlParams() {
+        return generateUrlParams(false, null);
+    }
+
+    private String generateUrlParams(boolean encode, String charset) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String key : normalParamMap.keySet()) {
             Object valueObj = normalParamMap.get(key);
@@ -42,12 +51,17 @@ public abstract class BaseRequestParameter {
             stringBuilder.append("&");
             stringBuilder.append(key);
             stringBuilder.append("=");
-//            try {
-//                value = URLEncoder.encode(value, "utf-8");
-//            } catch (UnsupportedEncodingException e) {
-//                Log.e("DefaultParameter ERROR", "URLEncoder error with charset utf-8");
-//                value = "";
-//            }
+            if (encode) {
+                try {
+                    if (charset==null){
+                        charset = CHARSET_DEFAULT;
+                    }
+                    value = URLEncoder.encode(value, charset);
+                } catch (UnsupportedEncodingException e) {
+                    Log.e("DefaultParameter ERROR", "URLEncoder error with charset "+charset);
+                    value = "";
+                }
+            }
             stringBuilder.append(value);
         }
         if (stringBuilder.length() > 0) {
@@ -58,7 +72,7 @@ public abstract class BaseRequestParameter {
     }
 
     public String generatePostBodyString(){
-        return generateUrlParams();
+        return generateUrlParams(true, CHARSET_DEFAULT);
     }
 
     public void addParameter(String key, Object value) {

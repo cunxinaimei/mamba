@@ -1,15 +1,20 @@
 package com.yxc.mamba;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.yxc.mamba.http.*;
+import com.yxc.mamba.http.okhttp.OkHttpJsonParameter;
+import com.yxc.mamba.http.okhttp.OkHttpParameter;
 import com.yxc.mamba.http.urlconnection.DefaultJsonParameter;
 import com.yxc.mamba.tool.JsonParser;
 import com.yxc.mambalibrary.R;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,19 +37,26 @@ public class MainActivity extends Activity {
     }
 
     private void testHttp(){
-        RequestManager.injectParameter(DefaultJsonParameter.class);
-        RequestManager.addCommonHeader("apikey", "ac9c1c27e1997fc2e8e4e6a27a70aae8");
-
-//        OkHttpJsonParameter parameter = new OkHttpJsonParameter("http://apis.baidu.com/baidu_openkg/xiaoshuo_kg/xiaoshuo_kg");
+//        RequestManager.injectParameter(OkHttpJsonParameter.class);
+//        RequestManager.addCommonHeader("apikey", "ac9c1c27e1997fc2e8e4e6a27a70aae8");
+//
+//        BaseRequestParameter parameter = RequestManager.createParameter("http://apis.baidu.com/baidu_openkg/xiaoshuo_kg/xiaoshuo_kg");
 //        parameter.addParameter("query", "大主宰");
 //        parameter.addParameter("resource", "spo_novel");
 
-//        OkHttpParameter parameter = new OkHttpParameter("http://apis.baidu.com/acman/zhaiyanapi/tcrand");
-//        parameter.addParameter("fangfa", "json");
 
-        BaseRequestParameter parameter = RequestManager.createParameter("http://apis.baidu.com/baidu_openkg/xiaoshuo_kg/xiaoshuo_kg");
-        parameter.addParameter("query", "大主宰");
-        parameter.addParameter("resource", "spo_novel");
+//        RequestManager.injectParameter(OkHttpParameter.class);
+//        BaseRequestParameter parameter = RequestManager.createParameter("http://29.onpos.cn/sakura/api/file/uploadImg.xhtml");
+//        parameter.addParameter("fileName", "test.png");
+////        parameter.addParameter("fileMaxSize", 10);
+//        String fPath = Environment.getExternalStorageDirectory() + "/test/bg.png";
+//        parameter.addFileParameter("myFile", new File(fPath));
+
+        BaseRequestParameter parameter = RequestManager.createParameter("http://29.onpos.cn/sakura/api/msg/push.xhtml");
+        parameter.addParameter("title", "世界你好");
+        parameter.addParameter("content", "HEIHEI");
+        parameter.addParameter("voice", "你好世界");
+        parameter.addParameter("deviceEn", "af5bff22");
 
         RequestManager.post("HB", parameter, new RequestCallBack() {
             @Override

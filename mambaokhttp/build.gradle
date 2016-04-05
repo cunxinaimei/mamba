@@ -29,7 +29,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.okhttp:okhttp:2.6.0'
     compile 'com.squareup.okio:okio:1.6.0'
-    compile 'com.yxc.mamba:mamba:0.2.1'
+    compile project(':mamba')
 }
 
 def siteUrl = 'https://github.com/cunxinaimei/mamba'      // 项目的主页

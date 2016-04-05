@@ -17,4 +17,9 @@
             android:text="TEST HTTP"
             android:id="@+id/btn"/>
 
+    <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/btn"/>
+
 </RelativeLayout>

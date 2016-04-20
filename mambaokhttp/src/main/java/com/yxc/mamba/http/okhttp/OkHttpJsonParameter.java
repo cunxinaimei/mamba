@@ -1,9 +1,9 @@
 package com.yxc.mamba.http.okhttp;
 
 import android.util.Log;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
 import com.yxc.mamba.tool.JsonParser;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import org.json.JSONException;
 
 /**

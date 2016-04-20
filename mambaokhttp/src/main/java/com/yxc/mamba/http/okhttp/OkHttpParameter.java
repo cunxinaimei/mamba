@@ -1,10 +1,11 @@
 package com.yxc.mamba.http.okhttp;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.RequestBody;
+import android.util.Log;
 import com.yxc.mamba.http.BaseRequest;
 import com.yxc.mamba.http.Parameter;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import java.io.File;
 import java.util.Map;
@@ -28,7 +29,23 @@ public class OkHttpParameter extends Parameter {
 
 
     public RequestBody generateRequestBody() {
-        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        if (getFileParameters() != null && getFileParameters().size()>0) {
+            return uploadBody();
+        }else{
+            return normalBody();
+        }
+    }
+
+    private RequestBody normalBody(){
+        String body1 = generateUrlParams();
+        String body2 = generateUrlParams(false, null);
+        Log.d(TAG, body1);
+        Log.d(TAG, body2);
+        return RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), generateUrlParams(true, "UTF-8"));
+    }
+
+    private RequestBody uploadBody(){
+        MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
         if (getFileParameters() != null) {
             for (String key : getFileParameters().keySet()) {
                 File file = getFileParameters().get(key);

@@ -23,16 +23,20 @@ public class RequestManager {
     }
 
     public static Parameter createParameter(String url) {
-        if (paramCls==null){
+        return createParameter(url, paramCls);
+    }
+
+    public static <T extends Parameter> Parameter createParameter(String url, Class<T> cls){
+        if (cls==null){
             Log.i(TAG, "You can use your own Parameter Class by  \" injectParameter \" function. The default Parameter Class is <DefaultParameter>(based on HttpUrlConnection)");
             Log.i(TAG, "你可以通过injectParameter方法使用你自定义的Parameter类, 默认使用DefaultParameter(基于HttpUrlConnection)");
-            paramCls = DefaultParameter.class;
+            cls = (Class<T>) DefaultParameter.class;
         }
         Parameter parameter = null;
         Class[] paramTypes = {String.class};
         Object[] paramValues = {url};
         try {
-            Constructor constructor = paramCls.getConstructor(paramTypes);
+            Constructor constructor = cls.getConstructor(paramTypes);
             parameter = (Parameter) constructor.newInstance(paramValues);
         } catch (Exception e) {
             throw new RuntimeException("please confirm your Parameter Class has a constructor with url(String)");

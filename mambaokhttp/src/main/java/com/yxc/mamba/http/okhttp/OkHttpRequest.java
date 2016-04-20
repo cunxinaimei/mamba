@@ -1,7 +1,7 @@
 package com.yxc.mamba.http.okhttp;
 
-import com.squareup.okhttp.*;
 import com.yxc.mamba.http.*;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -66,12 +66,12 @@ public class OkHttpRequest extends BaseRequest {
         requestStarted();
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 requestFailure(new RequestException(1, e.toString()));
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 requestSuccess(response);
             }
         });

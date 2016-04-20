@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.yxc.mamba.http.*;
+import com.yxc.mamba.http.okhttp.OkHttpParameter;
 import com.yxc.mamba.tool.JsonParser;
 import com.yxc.mambalibrary.R;
 
@@ -39,7 +40,7 @@ public class MainActivity extends Activity {
 //        parameter.addParameter("resource", "spo_novel");
 
 
-//        RequestManager.injectParameter(OkHttpParameter.class);
+        RequestManager.injectParameter(OkHttpParameter.class);
 
 //        BaseRequestParameter parameter = RequestManager.createParameter("http://29.onpos.cn/sakura/api/file/uploadImg.xhtml");
 //        parameter.addParameter("fileName", "test.png");
@@ -47,7 +48,7 @@ public class MainActivity extends Activity {
 //        String fPath = Environment.getExternalStorageDirectory() + "/test/bg.png";
 //        parameter.addFileParameter("myFile", new File(fPath));
 
-        Parameter parameter = RequestManager.createParameter("http://10.30.5.150:8080/service/get");
+        Parameter parameter = RequestManager.createParameter("http://172.18.204.188:8080/service/post");
         parameter.addParameter("name", "世界你好");
         parameter.addParameter("age", "19");
 
@@ -55,7 +56,7 @@ public class MainActivity extends Activity {
 //        parameter.addParameter("name", "世界你好");
 //        parameter.addParameter("age", "19");
 
-        RequestManager.get("HB", parameter, new RequestCallBack() {
+        RequestManager.post("HB", parameter, new RequestCallBack() {
             @Override
             public void onStart(BaseRequest request) {
                 Toast.makeText(MainActivity.this, "Request **" + request.getTag() + "** Started", Toast.LENGTH_LONG).show();

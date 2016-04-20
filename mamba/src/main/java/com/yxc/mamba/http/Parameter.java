@@ -37,7 +37,7 @@ public abstract class Parameter {
         return generateUrlParams(true, null);
     }
 
-    private String generateUrlParams(boolean encode, String charset) {
+    protected String generateUrlParams(boolean encode, String charset) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String key : normalParamMap.keySet()) {
             Object valueObj = normalParamMap.get(key);

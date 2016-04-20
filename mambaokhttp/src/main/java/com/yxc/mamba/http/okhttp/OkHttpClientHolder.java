@@ -1,6 +1,7 @@
 package com.yxc.mamba.http.okhttp;
 
-import com.squareup.okhttp.OkHttpClient;
+
+import okhttp3.OkHttpClient;
 
 /**
  * OkHttpClientHolder

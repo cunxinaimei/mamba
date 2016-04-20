@@ -61,7 +61,7 @@ public class CallBackHandler extends Handler {
         BaseRequest request = (BaseRequest) messageObj.get(KEY_REQUEST);
         BaseResponse response = (BaseResponse) messageObj.get(KEY_RESPONSE);
         RequestException error = (RequestException) messageObj.get(KEY_ERROR);
-        BaseRequestParameter parameter = (BaseRequestParameter) messageObj.get(KEY_PARAMETER);
+        Parameter parameter = (Parameter) messageObj.get(KEY_PARAMETER);
         switch (msg.what) {
             case EVENT_TYPE_START:
                 requestStart(request, parameter);
@@ -84,7 +84,7 @@ public class CallBackHandler extends Handler {
         }
     }
 
-    private void requestStart(BaseRequest request, BaseRequestParameter parameter){
+    private void requestStart(BaseRequest request, Parameter parameter){
         Log.i(TAG, "******************* Request " + request.getTag() + " start ********************");
         Log.i(TAG, "URL : " + parameter.getUrl());
         if (request.getMethod()== Method.GET) {
@@ -105,11 +105,11 @@ public class CallBackHandler extends Handler {
 
     private void requestFailure(BaseRequest request, RequestException error){
         Log.i(TAG, "******************* Request " + request.getTag() + " failure *****************");
-        Log.i(TAG, "Exception : " + error.getMessage());
+        Log.i(TAG, "Exception : " + error.toString());
         callBack.onFailure(request, error);
     }
 
-    private String getParamString(BaseRequestParameter parameter){
+    private String getParamString(Parameter parameter){
         StringBuilder paramBuilder = new StringBuilder();
         Map<String, Object> params = parameter.getParameters();
         for (String key: params.keySet()){
@@ -128,7 +128,7 @@ public class CallBackHandler extends Handler {
         return paramBuilder.toString();
     }
 
-    private String getHeaderString(BaseRequestParameter parameter){
+    private String getHeaderString(Parameter parameter){
         StringBuilder headerBuilder = new StringBuilder();
         for (RequestHeader header: parameter.getHeaders()){
             headerBuilder.append(header.getKey())

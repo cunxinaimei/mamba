@@ -30,4 +30,9 @@ public class RequestException extends Exception {
     public int getErrorCode() {
         return errorCode;
     }
+
+    @Override
+    public String toString() {
+        return "Error Code : " + getErrorCode() + " ; " + "Error Message : " + getMessage();
+    }
 }

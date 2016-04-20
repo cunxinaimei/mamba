@@ -31,12 +31,12 @@ class CommonParameter implements ICommonParameter {
     }
 
 
-    private Map<String, String> normalParamMap;
+    private Map<String, Object> normalParamMap;
 
     private Map<String, RequestHeader> headerMap;
 
     @Override
-    public void addCommonParameter(String key, String value){
+    public void addCommonParameter(String key, Object value){
         normalParamMap.put(key, value);
     }
 
@@ -72,7 +72,7 @@ class CommonParameter implements ICommonParameter {
     }
 
     @Override
-    public Map<String, String> getCommonParameters(){
+    public Map<String, Object> getCommonParameters(){
         return normalParamMap;
     }
 

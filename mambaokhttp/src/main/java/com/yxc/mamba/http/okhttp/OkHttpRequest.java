@@ -19,7 +19,7 @@ public class OkHttpRequest extends BaseRequest {
     }
 
     @Override
-    protected <T extends BaseRequestParameter> void doGet(T parameter) {
+    protected <T extends Parameter> void doGet(T parameter) {
         Request.Builder builder = new Request.Builder();
         builder = builder.url(parameter.generateGetURL());
         for (RequestHeader header: parameter.getHeaders()){
@@ -29,7 +29,7 @@ public class OkHttpRequest extends BaseRequest {
     }
 
     @Override
-    protected <T extends BaseRequestParameter> void doPost(T parameter) {
+    protected <T extends Parameter> void doPost(T parameter) {
         OkHttpParameter okParameter = (OkHttpParameter) parameter;
         Request.Builder builder = new Request.Builder();
         builder.url(okParameter.getUrl());

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface ICommonParameter {
 
-    void addCommonParameter(String key, String value);
+    void addCommonParameter(String key, Object value);
 
     void removeCommonParameter(String key);
 
@@ -25,7 +25,7 @@ public interface ICommonParameter {
 
     void clearAll();
 
-    Map<String, String> getCommonParameters();
+    Map<String, Object> getCommonParameters();
 
     Collection<RequestHeader> getCommonHeaders();
 }

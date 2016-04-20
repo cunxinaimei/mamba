@@ -14,9 +14,9 @@ import java.util.*;
  *
  * @author yangxc
  */
-public abstract class BaseRequestParameter {
+public abstract class Parameter {
 
-    public static String TAG = BaseRequestParameter.class.getSimpleName();
+    public static String TAG = Parameter.class.getSimpleName();
 
     public static final String CHARSET_DEFAULT = "UTF-8";
 
@@ -25,7 +25,7 @@ public abstract class BaseRequestParameter {
     protected Map<String, File> fileMap;
     protected List<RequestHeader> headerList;
 
-    public BaseRequestParameter(String url) {
+    public Parameter(String url) {
         this.url = url;
         normalParamMap = new HashMap<>();
         headerList = new ArrayList<>();
@@ -34,7 +34,7 @@ public abstract class BaseRequestParameter {
     public abstract BaseRequest boundRequest(String tag);
 
     public String generateUrlParams() {
-        return generateUrlParams(false, null);
+        return generateUrlParams(true, null);
     }
 
     private String generateUrlParams(boolean encode, String charset) {

@@ -2,6 +2,11 @@ package com.yxc.mamba.http;
 
 import android.os.Looper;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 
 /**
@@ -14,7 +19,7 @@ public abstract class BaseRequest {
     protected CallBackHandler callBackHandler;
 
     protected String tag;
-    private BaseRequestParameter parameter;
+    private Parameter parameter;
     private Method method;
 
     public BaseRequest(String tag) {
@@ -33,7 +38,7 @@ public abstract class BaseRequest {
         return method;
     }
 
-    public void doRequest(Method method, BaseRequestParameter parameter, RequestCallBack callBack) {
+    public void doRequest(Method method, Parameter parameter, RequestCallBack callBack) {
         initCallBackHandler(callBack);
         this.method = method;
         this.parameter = parameter;
@@ -51,9 +56,9 @@ public abstract class BaseRequest {
 
     public abstract boolean isAsynchronous();
 
-    protected abstract <T extends BaseRequestParameter> void doGet(T parameter);
+    protected abstract <T extends Parameter> void doGet(T parameter);
 
-    protected abstract <T extends BaseRequestParameter> void doPost(T parameter);
+    protected abstract <T extends Parameter> void doPost(T parameter);
 
     protected abstract BaseResponse transferToResponse(Object originResponse);
 

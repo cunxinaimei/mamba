@@ -4,7 +4,7 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.RequestBody;
 import com.yxc.mamba.http.BaseRequest;
-import com.yxc.mamba.http.BaseRequestParameter;
+import com.yxc.mamba.http.Parameter;
 
 import java.io.File;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author yangxc
  */
-public class OkHttpParameter extends BaseRequestParameter {
+public class OkHttpParameter extends Parameter {
 
     public OkHttpParameter(String url) {
         super(url);

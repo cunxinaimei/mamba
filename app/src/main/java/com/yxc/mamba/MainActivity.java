@@ -1,20 +1,14 @@
 package com.yxc.mamba;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.yxc.mamba.http.*;
-import com.yxc.mamba.http.okhttp.OkHttpJsonParameter;
-import com.yxc.mamba.http.okhttp.OkHttpParameter;
-import com.yxc.mamba.http.urlconnection.DefaultJsonParameter;
 import com.yxc.mamba.tool.JsonParser;
 import com.yxc.mambalibrary.R;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,19 +40,22 @@ public class MainActivity extends Activity {
 
 
 //        RequestManager.injectParameter(OkHttpParameter.class);
+
 //        BaseRequestParameter parameter = RequestManager.createParameter("http://29.onpos.cn/sakura/api/file/uploadImg.xhtml");
 //        parameter.addParameter("fileName", "test.png");
 ////        parameter.addParameter("fileMaxSize", 10);
 //        String fPath = Environment.getExternalStorageDirectory() + "/test/bg.png";
 //        parameter.addFileParameter("myFile", new File(fPath));
 
-        BaseRequestParameter parameter = RequestManager.createParameter("http://29.onpos.cn/sakura/api/msg/push.xhtml");
-        parameter.addParameter("title", "世界你好");
-        parameter.addParameter("content", "HEIHEI");
-        parameter.addParameter("voice", "你好世界");
-        parameter.addParameter("deviceEn", "af5bff22");
+        Parameter parameter = RequestManager.createParameter("http://10.30.5.150:8080/service/get");
+        parameter.addParameter("name", "世界你好");
+        parameter.addParameter("age", "19");
 
-        RequestManager.post("HB", parameter, new RequestCallBack() {
+//        Parameter parameter = RequestManager.createParameter("https://www.baidu.com/s");
+//        parameter.addParameter("name", "世界你好");
+//        parameter.addParameter("age", "19");
+
+        RequestManager.get("HB", parameter, new RequestCallBack() {
             @Override
             public void onStart(BaseRequest request) {
                 Toast.makeText(MainActivity.this, "Request **" + request.getTag() + "** Started", Toast.LENGTH_LONG).show();

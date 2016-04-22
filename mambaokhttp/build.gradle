@@ -69,7 +69,7 @@ install {
 }
 
 task makeJar(type: Copy) {
-    delete 'build/libs/mysdk.jar'
+    delete 'build/libs/mamba-okhttp.jar'
     from('build/intermediates/bundles/release/')
     into('build/libs/')
     include('classes.jar')

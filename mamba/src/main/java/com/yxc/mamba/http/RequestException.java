@@ -8,12 +8,21 @@ package com.yxc.mamba.http;
  */
 public class RequestException extends Exception {
 
+    public static final int CODE_UNKNOWN = 1000;
+    public static final int CODE_SOCKET_TIMED_OUT = 1001;
+
     private int errorCode;
 
     private String errorMessage;
 
     public RequestException() {
         super();
+    }
+
+    public RequestException(ExceptionEnum exceptionEnum){
+        super();
+        this.errorCode = exceptionEnum.errCode;
+        this.errorMessage = exceptionEnum.message;
     }
 
     public RequestException(int errorCode, String errorMessage) {

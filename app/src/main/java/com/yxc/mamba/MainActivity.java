@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 //        String fPath = Environment.getExternalStorageDirectory() + "/test/bg.png";
 //        parameter.addFileParameter("myFile", new File(fPath));
 
-        Parameter parameter = RequestManager.createParameter("http://172.18.204.188:8080/service/post");
+        Parameter parameter = RequestManager.createParameter("http://172.18.204.188:8080/service/post111");
         parameter.addParameter("name", "世界你好");
         parameter.addParameter("age", "19");
 

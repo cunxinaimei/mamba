@@ -4,6 +4,7 @@ import com.yxc.mamba.http.*;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Collection;
 
 /**
@@ -57,7 +58,7 @@ public class OkHttpRequest extends BaseRequest {
         } catch (IOException e) {
             errMsg = e.toString();
         }
-        return new BaseResponse(1, errMsg);
+        return new BaseResponse(RequestException.CODE_UNKNOWN, errMsg);
     }
 
     private void doCall(Request request){
@@ -67,11 +68,23 @@ public class OkHttpRequest extends BaseRequest {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                requestFailure(new RequestException(1, e.toString()));
+                RequestException exception;
+                if (e instanceof SocketTimeoutException){
+                    exception = new RequestException(ExceptionEnum.EXCEPTION_SOCKET_TIMED_OUT);
+                }else{
+                    exception = new RequestException(RequestException.CODE_UNKNOWN, e.toString());
+                }
+                requestFailure(exception);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                int code = response.code();
+                String message = response.message();
+                if (code>=400){
+                    requestFailure(new RequestException(code, message));
+                    return;
+                }
                 requestSuccess(response);
             }
         });

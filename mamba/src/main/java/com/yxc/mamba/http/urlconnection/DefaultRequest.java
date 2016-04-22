@@ -8,6 +8,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Scanner;
@@ -196,7 +197,13 @@ public class DefaultRequest extends BaseRequest {
             requestSuccess(result);
             Log.d(TAG, result);
         } catch (IOException e) {
-            requestFailure(new RequestException(-1, e.toString()));
+            RequestException exception;
+            if (e instanceof SocketTimeoutException){
+                exception = new RequestException(ExceptionEnum.EXCEPTION_SOCKET_TIMED_OUT);
+            } else {
+                exception = new RequestException(RequestException.CODE_UNKNOWN, e.toString());
+            }
+            requestFailure(exception);
         } finally {
             if (connection != null) {
                 connection.disconnect();

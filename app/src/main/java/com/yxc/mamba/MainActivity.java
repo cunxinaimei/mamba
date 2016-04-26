@@ -2,14 +2,17 @@ package com.yxc.mamba;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.yxc.mamba.http.*;
 import com.yxc.mamba.http.okhttp.OkHttpParameter;
+import com.yxc.mamba.http.urlconnection.DefaultParameter;
 import com.yxc.mamba.tool.JsonParser;
 import com.yxc.mambalibrary.R;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +28,9 @@ public class MainActivity extends Activity {
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testHttp();
+//                testHttp();
 //                testJsonParser();
+                testUpload();
             }
         });
     }
@@ -125,5 +129,26 @@ public class MainActivity extends Activity {
     static class Man{
         public String name = "Niu BE";
         public int age = 23;
+    }
+
+
+    public static void testUpload(){
+        Parameter parameter = RequestManager.createParameter("http://29.onpos.cn/narcissus/api/common/upload.xhtml", DefaultParameter.class);
+        parameter.addParameter("appToken", "r5dBAVKZvK%2Fp05scoAGSXO8VZRsMNHRG2ZPgVU6PVCtTs%2Fa5K72H8w%3D%3D");
+        parameter.addParameter("uid", "15011478896");
+        parameter.addParameter("userType", "direct");
+        String fPath = Environment.getExternalStorageDirectory() + "/test/bg.png";
+        parameter.addFileParameter("imgFile", new File(fPath));
+        RequestManager.post("Upload", parameter, new DefaultCallBack() {
+            @Override
+            public void onFailure(BaseRequest request, RequestException exception) {
+                Log.d(TAG, exception.toString());
+            }
+
+            @Override
+            public void onSuccess(BaseRequest request, BaseResponse response) {
+                Log.d(TAG, response.getResult().toString());
+            }
+        });
     }
 }

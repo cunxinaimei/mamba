@@ -99,7 +99,7 @@ public class DefaultRequest extends BaseRequest {
     }
 
     private <T extends Parameter> void doUpload(T parameter){
-        String BOUNDARY = "----"+UUID.randomUUID().toString(); // 边界标识 随机生成
+        String BOUNDARY = "----"+UUID.randomUUID().toString().replace("-", ""); // 边界标识 随机生成
         String PREFIX = "--", LINE_END = "\r\n";
         String CONTENT_TYPE = "multipart/form-data"; // 内容类型
 
@@ -149,6 +149,7 @@ public class DefaultRequest extends BaseRequest {
             }
 
             StringBuilder textEntity = new StringBuilder();
+            textEntity.append(LINE_END);
             for (Map.Entry<String, Object> entry : parameter.getParameters().entrySet()) {// 构造文本类型参数的实体数据
                 textEntity.append(PREFIX);
                 textEntity.append(BOUNDARY);
@@ -159,11 +160,15 @@ public class DefaultRequest extends BaseRequest {
                 textEntity.append("\r\n");
             }
 
+//            dos.write(textEntity.toString().getBytes());
+//            dos.write(LINE_END.getBytes());
+//            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END)
+//                    .getBytes();
+//            dos.write(end_data);
+
+//            textEntity.append(LINE_END);
+            textEntity.append(PREFIX).append(BOUNDARY).append(PREFIX).append(LINE_END);
             dos.write(textEntity.toString().getBytes());
-            dos.write(LINE_END.getBytes());
-            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END)
-                    .getBytes();
-            dos.write(end_data);
             dos.flush();
         } catch (IOException e) {
             e.printStackTrace();
